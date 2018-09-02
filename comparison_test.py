@@ -35,18 +35,18 @@ def compare():
 
 
 if __name__ == "__main__":
-    comparions = compare()
-    print(comparions)
-    with open(output_path,'wt') as file:
-        file.write("\n".join(comparions))
+    # comparions = compare()
+    # print(comparions)
+    # with open(output_path,'wt') as file:
+    #     file.write("\n".join(comparions))
 
-    # parser = get_parser().parse_args()
-    # sentence1, sentence2 = parser.sentences
+    parser = get_parser().parse_args()
+    sentence1, sentence2 = parser.sentences
 
-    # # Get embeddings corresponding to each sentences
-    # results_elmo, results_nnlm = embeddings.get_embeddings_elmo_nnlm([sentence1, sentence2])
+    # Get embeddings corresponding to each sentences
+    results_elmo, results_nnlm = embeddings.get_embeddings_elmo_nnlm([sentence1, sentence2])
 
-    # print("[Cosine Similarity]")
-    # print("\"{}\" vs \"{}\"".format(sentence1, sentence2))
-    # print("ELMo:", cos_sim(results_elmo[0], results_elmo[1]))
-    # print("NNLM:", cos_sim(results_nnlm[0], results_nnlm[1]))
+    print("[Cosine Similarity]")
+    print("\"{}\" vs \"{}\"".format(sentence1, sentence2))
+    print("ELMo:", cos_sim(results_elmo[0], results_elmo[1]))
+    print("NNLM:", cos_sim(results_nnlm[0], results_nnlm[1]))
