@@ -42,7 +42,7 @@ if __name__ == "__main__":
 
     parser = get_parser().parse_args()
     sentence1, sentence2 = parser.sentences
-
+    print([sentence1, sentence2])
     # Get embeddings corresponding to each sentences
     results_elmo, results_nnlm = embeddings.get_embeddings_elmo_nnlm([sentence1, sentence2])
 
