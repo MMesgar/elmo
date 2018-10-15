@@ -18,28 +18,33 @@ def execute(tensor):
         sess.run(tf.tables_initializer())
         return sess.run(tensor)
 
+def load_elmo():
+    elmo = hub.Module(ELMO, trainable=True)
+    return elmo 
 
-def embed(model_name, sentences):
-    if model_name == "elmo":
-        elmo = hub.Module(ELMO, trainable=True)
-        executable = elmo(
+def embed(sentences, loaded_elmo):
+    executable = loaded_elmo(
             sentences,
             signature="default",
-            as_dict=True)["elmo"]
-
-    elif model_name == "nnlm":
-        nnlm = hub.Module(NNLM)
-        executable = nnlm(sentences)
-
-    else:
-        raise NotImplementedError
-
+            as_dict=True)["elmo"]# elmo, word_emb, lstm_outputs1, default
     return execute(executable)
 
 
 def word_to_sentence(embeddings):
-    return embeddings.sum(axis=1)
+    return embeddings.mean(axis=1)
 
 
-def get_embeddings_elmo_nnlm(sentences):
-    return word_to_sentence(embed("elmo", sentences)), embed("nnlm", sentences)
+def get_embeddings_elmo(sentences,loaded_elmo):
+    return word_to_sentence(embed(sentences,loaded_elmo))
+
+if __name__ == '__main__':
+
+    loaded_elmo = load_elmo()
+
+    sentences = ['First sentence', 'Another']
+    
+    emb = embed(sentences,loaded_elmo)
+
+    print(emb.shape)
+
+    print(emb[:,:5])
